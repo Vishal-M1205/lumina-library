@@ -70,4 +70,18 @@ $('.search-suggest').on('click', 'a', function (e) {
   search();
 });
 
-$('.search-bar').on('input', function () {});
+function debounce() {
+  let timerId;
+  return function () {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      search();
+    }, 1000);
+  };
+}
+
+const debounceSearch = debounce();
+
+$('.search-bar').on('input', function () {
+  debounceSearch();
+});
