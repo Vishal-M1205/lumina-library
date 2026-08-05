@@ -137,6 +137,10 @@ $(document).ready(function () {
         });
         form.reset();
 
+        setTimeout(() => {
+          window.location.replace('./pages/searchPage.html');
+        }, 2000);
+
         // Close the modal
         const loginModal =
           bootstrap.Modal.getInstance(document.getElementById('loginModal')) ||
