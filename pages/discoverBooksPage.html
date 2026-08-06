@@ -32,7 +32,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../styles/index.css" />
-    <link rel="stylesheet" href="../styles/searchPage.css" />
+    <link rel="stylesheet" href="../styles/discoverBooksPage.css" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg px-lg-5">
@@ -41,14 +41,15 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="nav">
-        <ul class="navbar-nav gap-3 ms-3 me-3 align-items-lg-center align-items-start">
-          <li class="nav-item">
+        <ul class="navbar-nav gap-3 ms-3 me-3 mb-3 mb-lg-0 align-items-lg-center align-items-start">
+          <li class="nav-item" id="myLibrary">
             <a href="#">My Library</a>
           </li>
           <li class="nav-item current-page">
             <a href="#">Dicover Books</a>
           </li>
         </ul>
+        <a href="#" id="logoutBtn" class="ms-lg-auto ms-3 me-3">Logout</a>
       </div>
     </nav>
 
@@ -93,7 +94,21 @@
       </div>
     </section>
 
-    <script src="../scripts/searchPage.js"></script>
+    <!-- Add this directly below your #results-container -->
+    <div
+      id="pagination-controls"
+      class="d-none d-flex justify-content-center align-items-center mt-4 mb-5"
+    >
+      <button id="prevBtn" class="btn btn-outline-primary me-3">
+        <i class="bi bi-chevron-left"></i> Previous
+      </button>
+      <span id="pageIndicator" class="fw-bold mx-3">Page 1</span>
+      <button id="nextBtn" class="btn btn-outline-primary ms-3">
+        Next <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+
+    <script src="../scripts/discoverBooksPage.js" type="module"></script>
 
     <script></script>
   </body>

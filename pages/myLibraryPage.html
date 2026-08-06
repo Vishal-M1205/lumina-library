@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lumina Library</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/myLibraryPage.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg px-lg-5">
+      <a href="#" class="navbar-brand ms-3 playfair-font fw-bold"> Lumina Library </a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav gap-3 ms-3 me-3 mb-3 mb-lg-0 align-items-lg-center align-items-start">
+          <li class="nav-item current-page">
+            <a href="#">My Library</a>
+          </li>
+          <li class="nav-item" id="discoverBooks">
+            <a href="#">Dicover Books</a>
+          </li>
+        </ul>
+        <a href="#" id="logoutBtn" class="ms-lg-auto ms-3 me-3">Logout</a>
+      </div>
+    </nav>
+
+    <section class="container-lg container-fluid mt-5">
+      <h2 class="playfair-font fw-bold">My Reading Log</h2>
+      <p class="text-muted">Track yout progress and capture your thoughts</p>
+      <div class="library-filters mb-4">
+        <button class="filter-btn active" data-filter="all">
+          <i class="bi bi-grid"></i>
+          All
+        </button>
+
+        <button class="filter-btn" data-filter="want">
+          <i class="bi bi-bookmark"></i>
+          Want to Read
+        </button>
+
+        <button class="filter-btn" data-filter="reading">
+          <i class="bi bi-book-half"></i>
+          Reading
+        </button>
+
+        <button class="filter-btn" data-filter="completed">
+          <i class="bi bi-check-circle"></i>
+          Completed
+        </button>
+
+        <button class="filter-btn" data-filter="dropped">
+          <i class="bi bi-x-circle"></i>
+          Dropped
+        </button>
+      </div>
+
+      <div class="row" id="library-container">
+        <!-- <div class="col-lg-6 mb-4">
+          <div class="reading-card">
+            <button class="edit-book-btn" data-id="BOOK_ID" title="Edit Book">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <div class="reading-cover">
+              <img
+                src="https://is1-ssl.mzstatic.com/image/thumb/Publication211/v4/70/e3/ba/70e3ba1e-5532-ba0d-8d3c-e4c30d5e2090/9780593833384.d.jpg/300x300bb.jpg"
+                alt="Book Cover"
+              />
+            </div>
+
+            <div class="reading-content">
+              <span class="status reading">
+                <i class="bi bi-book-half"></i>
+                Reading
+              </span>
+
+              <h5 class="book-title">The Courage To Be Disliked</h5>
+
+              <p class="author">
+                <i class="bi bi-person-fill"></i>
+                Ichiro Kishimi
+              </p>
+
+              <div class="progress-section">
+                <div class="d-flex justify-content-between mb-1">
+                  <small>Reading Progress</small>
+                  <small>172 / 320 Pages</small>
+                </div>
+
+                <div class="progress">
+                  <div class="progress-bar" style="width: 54%"></div>
+                </div>
+              </div>
+
+              <div class="reading-info">
+                <div>
+                  <small>Started</small>
+                  <span>05 Aug 2026</span>
+                </div>
+
+                <div>
+                  <small>Completed</small>
+                  <span>--</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </section>
+
+    <script type="module" src="../scripts/myLibraryPage.js"></script>
+  </body>
+</html>

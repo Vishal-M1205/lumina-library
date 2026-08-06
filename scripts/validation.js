@@ -138,13 +138,11 @@ $(document).ready(function () {
         form.reset();
 
         setTimeout(() => {
-          window.location.replace('./pages/searchPage.html');
+          window.location.replace('./pages/discoverBooksPage.html');
         }, 2000);
 
         // Close the modal
-        const loginModal =
-          bootstrap.Modal.getInstance(document.getElementById('loginModal')) ||
-          new bootstrap.Modal(document.getElementById('loginModal'));
+        const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
         if (loginModal) loginModal.hide();
       } catch (error) {
         console.error('Login Error:', error);
@@ -202,9 +200,9 @@ $(document).ready(function () {
         form.reset();
 
         // Close the modal
-        const forgotModal =
-          bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal')) ||
-          new bootstrap.Modal(document.getElementById('forgotPasswordModal'));
+        const forgotModal = bootstrap.Modal.getInstance(
+          document.getElementById('forgotPasswordModal')
+        );
         if (forgotModal) forgotModal.hide();
       } catch (error) {
         console.error('Forgot Password Error:', error);

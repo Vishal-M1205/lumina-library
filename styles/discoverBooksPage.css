@@ -1,0 +1,126 @@
+.search-bar {
+  width: 50%;
+}
+
+.search-bar:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.2rem rgba(93, 115, 126, 0.2);
+}
+
+.search-suggest small {
+  background-color: var(--tertiary);
+}
+.search-suggest a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+}
+
+.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.book-card {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(93, 115, 126, 0.12);
+  transition: 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.book-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.book-cover {
+  overflow: hidden;
+  background: var(--section-bg);
+}
+
+.book-cover img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  transition: 0.45s;
+}
+
+.book-card:hover img {
+  transform: scale(1.05);
+}
+
+.book-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.book-title {
+  color: var(--neutral);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-author,
+.book-year {
+  color: #777;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.book-author i,
+.book-year i {
+  color: var(--tertiary);
+  margin-right: 6px;
+}
+
+.btn-save {
+  margin-top: auto;
+  width: 100%;
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  padding: 0.7rem;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-save:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-saved {
+  margin-top: auto;
+  width: 100%;
+  background: var(--tertiary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.7rem;
+  font-weight: 600;
+}
+
+@media (max-width: 590px) {
+  .search-bar {
+    width: 80%;
+  }
+}

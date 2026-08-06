@@ -9,7 +9,18 @@ import {
   updateProfile,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut,
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js';
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+} from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDPW-66ZikP8UHM_QflBCx9kA4y466xyoI', // Remember to put your key back!
@@ -26,10 +37,20 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 const auth = getAuth(app);
+const db = getFirestore(app);
+
 export {
   auth,
+  db,
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
 };
