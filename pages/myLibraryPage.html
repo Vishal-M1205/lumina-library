@@ -137,6 +137,87 @@
       </div>
     </section>
 
+    <div class="modal fade" id="editBookModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+          <div class="modal-header border-0 pb-0">
+            <h4 class="modal-title fw-bold text-dark">
+              <i class="bi bi-pencil-square me-2"></i>
+              Update Reading
+            </h4>
+
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body pt-3">
+            <form id="editBookForm">
+              <input type="hidden" id="bookDocId" />
+
+              <!-- Status -->
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold"> Reading Status </label>
+
+                <select class="form-select" id="status">
+                  <option value="want">Want to Read</option>
+                  <option value="reading">Reading</option>
+                  <option value="completed">Completed</option>
+                  <option value="dropped">Dropped</option>
+                </select>
+              </div>
+
+              <!-- Pages -->
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold"> Pages Read </label>
+
+                    <input type="number" class="form-control" id="pagesRead" min="0" />
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-semibold"> Total Pages </label>
+
+                    <input type="number" class="form-control" id="totalPages" min="1" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dates -->
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold"> Started Reading </label>
+
+                <input type="date" class="form-control" id="startedDate" />
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label fw-semibold"> Completed Date </label>
+
+                <input type="date" class="form-control" id="completedDate" />
+              </div>
+
+              <!-- Buttons -->
+
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-save flex-grow-1">
+                  <i class="bi bi-check-circle me-2"></i>
+                  Save Changes
+                </button>
+
+                <button type="button" id="deleteBookBtn" class="btn btn-delete">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="../scripts/myLibraryPage.js"></script>
   </body>
 </html>

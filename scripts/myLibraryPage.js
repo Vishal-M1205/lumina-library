@@ -7,6 +7,9 @@ import {
   getDocs,
   query,
   where,
+  doc,
+  updateDoc,
+  deleteDoc,
 } from './index.js';
 
 // Store all fetched books here so filtering is instant (no extra database calls)
@@ -47,6 +50,42 @@ $(document).ready(function () {
 
     const selectedFilter = $(this).data('filter');
     renderLibrary(selectedFilter);
+  });
+
+  function formatDateForInput(dateVal) {
+    if (!dateVal) return '';
+    // Handle both Firestore Timestamps and standard JS Dates
+    const d = dateVal.toDate ? dateVal.toDate() : new Date(dateVal);
+    if (isNaN(d.getTime())) return '';
+
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`; // Must be exactly YYYY-MM-DD
+  }
+
+  $(document).on('click', '.edit-book-btn', function () {
+    const id = $(this).data('id');
+
+    // Find this exact book in our local array
+    const book = allSavedBooks.find((b) => b.id === id);
+    if (!book) return;
+
+    // Fill in the hidden ID field so the submit form knows which book to update
+    $('#bookDocId').val(book.id);
+
+    // Populate Status & Pages
+    $('#status').val(book.status);
+    $('#pagesRead').val(book.pagesRead || 0);
+    $('#totalPages').val(book.totalPages || 0);
+
+    // Populate Dates
+    $('#startedDate').val(formatDateForInput(book.startedAt));
+    $('#completedDate').val(formatDateForInput(book.completedAt));
+
+    // Show the modal
+    const editModal = new bootstrap.Modal(document.getElementById('editBookModal'));
+    editModal.show();
   });
 });
 
@@ -203,3 +242,97 @@ function renderLibrary(filterType) {
     container.append(cardHtml);
   });
 }
+
+$('#editBookForm').on('submit', async function (e) {
+  e.preventDefault();
+  const submitBtn = $(this).find('button[type="submit"]');
+  const originalText = submitBtn.html();
+
+  const docId = $('#bookDocId').val();
+  const startedDateVal = $('#startedDate').val();
+  const completedDateVal = $('#completedDate').val();
+
+  // Gather updated data
+  const updatedData = {
+    status: $('#status').val(),
+    pagesRead: parseInt($('#pagesRead').val()) || 0,
+    totalPages: parseInt($('#totalPages').val()) || 0,
+    startedAt: startedDateVal ? new Date(startedDateVal) : null,
+    completedAt: completedDateVal ? new Date(completedDateVal) : null,
+  };
+
+  try {
+    // Visual loading state
+    submitBtn
+      .html('<span class="spinner-border spinner-border-sm me-2"></span>Saving...')
+      .prop('disabled', true);
+
+    // Update Firestore
+    await updateDoc(doc(db, 'library', docId), updatedData);
+
+    // Update our local array so we don't have to fetch from the DB again!
+    const bookIndex = allSavedBooks.findIndex((b) => b.id === docId);
+    if (bookIndex > -1) {
+      allSavedBooks[bookIndex] = { ...allSavedBooks[bookIndex], ...updatedData };
+    }
+
+    // Close Modal
+    const editModal = bootstrap.Modal.getInstance(document.getElementById('editBookModal'));
+    editModal.hide();
+
+    // Re-render the library on the current active tab
+    const currentFilter = $('.filter-btn.active').data('filter') || 'all';
+    renderLibrary(currentFilter);
+
+    // SweetAlert2 Success Toast
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'success',
+      title: 'Book updated successfully',
+      showConfirmButton: false,
+      timer: 2000,
+    });
+  } catch (error) {
+    console.error('Error updating book:', error);
+    Swal.fire('Error', 'Could not update the book. Please try again.', 'error');
+  } finally {
+    submitBtn.html(originalText).prop('disabled', false);
+  }
+});
+
+$('#deleteBookBtn').on('click', async function () {
+  const docId = $('#bookDocId').val();
+
+  const result = await Swal.fire({
+    title: 'Remove Book?',
+    text: 'Are you sure you want to remove this book from your library?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, remove it!',
+  });
+
+  console.log(result);
+
+  if (result.isConfirmed) {
+    try {
+      console.log('hiii');
+      await deleteDoc(doc(db, 'library', docId));
+
+      allSavedBooks = allSavedBooks.filter((b) => b.id !== docId);
+
+      const editModal = bootstrap.Modal.getInstance(document.getElementById('editBookModal'));
+      editModal.hide();
+
+      const currentFilter = $('.filter-btn.active').data('filter') || 'all';
+      renderLibrary(currentFilter);
+
+      Swal.fire('Deleted!', 'The book has been removed from your library.', 'success');
+    } catch (error) {
+      console.error('Error deleting book:', error);
+      Swal.fire('Error', 'Could not delete the book.', 'error');
+    }
+  }
+});
