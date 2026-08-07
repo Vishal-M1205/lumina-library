@@ -20,7 +20,6 @@ export const savedBooks = new Set();
 let currentUser = null;
 
 $(document).ready(function () {
-  restoreSearchState();
   $('.search-suggest').on('click', 'a', function (e) {
     e.preventDefault();
     $('.search-bar').val($(this).text());
@@ -68,6 +67,7 @@ $(document).ready(function () {
 
         savedBooks.add(data.bookId);
       });
+      restoreSearchState();
     } else {
       currentUser = null;
       savedBooks.clear();
