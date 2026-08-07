@@ -26,8 +26,24 @@ $(document).ready(function () {
   $('#logoutBtn').on('click', async function (e) {
     e.preventDefault();
     try {
-      await signOut(auth);
-      window.location.replace('../index.html');
+      const result = await Swal.fire({
+        title: 'Leaving So Soon?',
+        text: 'Your library will be waiting when you return.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Logout',
+        cancelButtonText: 'Stay',
+        confirmButtonColor: '#5d737e',
+        cancelButtonColor: '#d4a373',
+        reverseButtons: true,
+      });
+      if (result.isConfirmed) {
+        await signOut(auth);
+        sessionStorage.removeItem('savedSearchQuery');
+        sessionStorage.removeItem('savedSearchResults ');
+        sessionStorage.removeItem('savedSearchPage');
+        window.location.replace('../index.html');
+      }
     } catch (error) {
       console.error('Logout Error:', error);
     }
@@ -192,7 +208,7 @@ function renderBookDetails(isSaved, savedData) {
   } else {
     // ---- BOOK IS NOT SAVED: Show Save Button ----
     buttonHtml = `
-      <button class="btn btn-save mt-3 save-btn" id="saveBookBtn">
+      <button class="btn btn-save  mt-3 save-btn" id="saveBookBtn">
         <i class="bi bi-bookmark-plus me-2"></i>Save to Library
       </button>`;
   }
