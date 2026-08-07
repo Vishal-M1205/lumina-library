@@ -52,6 +52,16 @@ $(document).ready(function () {
     } else {
       currentUser = null;
       savedBooks.clear();
+      await Swal.fire({
+        icon: 'info',
+        title: 'A Library Awaits',
+        text: 'Sign in to begin collecting stories that will stay with you.',
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+
+      window.location.replace('../index.html');
     }
   });
 

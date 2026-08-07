@@ -39,6 +39,15 @@ $(document).ready(function () {
       await fetchLibrary(user.uid);
     } else {
       // Not logged in? Redirect to index.
+      await Swal.fire({
+        icon: 'info',
+        title: 'A Library Awaits',
+        text: 'Sign in to begin collecting stories that will stay with you.',
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+
       window.location.replace('../index.html');
     }
   });
@@ -286,8 +295,6 @@ $('#editBookForm').on('submit', async function (e) {
 
     // SweetAlert2 Success Toast
     Swal.fire({
-      toast: true,
-      position: 'top-end',
       icon: 'success',
       title: 'Book updated successfully',
       showConfirmButton: false,

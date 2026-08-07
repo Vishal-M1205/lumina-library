@@ -11,6 +11,9 @@ import {
   sendPasswordResetEmail,
   onAuthStateChanged,
   signOut,
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence,
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js';
 
 import {
@@ -51,6 +54,9 @@ export {
   sendPasswordResetEmail,
   onAuthStateChanged,
   signOut,
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence,
   collection,
   addDoc,
   getDocs,

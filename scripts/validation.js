@@ -4,6 +4,9 @@ import {
   updateProfile,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence,
 } from './index.js';
 
 $(document).ready(function () {
@@ -115,12 +118,19 @@ $(document).ready(function () {
 
       const email = $(form).find('input[name="email"]').val().trim();
       const password = $(form).find('input[name="password"]').val();
+      const isRememberChecked = $('#remember').is(':checked');
       const submitBtn = $(form).find('button');
       const originalText = submitBtn.text();
 
       try {
         // Show loading state
         submitBtn.text('Logging in...').prop('disabled', true);
+
+        const persistenceType = isRememberChecked
+          ? browserLocalPersistence
+          : browserSessionPersistence;
+
+        await setPersistence(auth, persistenceType);
 
         // Authenticate with Firebase
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
