@@ -1,4 +1,9 @@
-import { search } from './searchFunction.js';
+import {
+  search,
+  restoreSearchState,
+  allSearchResults,
+  updatePaginationUI,
+} from './searchFunction.js';
 import {
   auth,
   signOut,
@@ -15,6 +20,7 @@ export const savedBooks = new Set();
 let currentUser = null;
 
 $(document).ready(function () {
+  restoreSearchState();
   $('.search-suggest').on('click', 'a', function (e) {
     e.preventDefault();
     $('.search-bar').val($(this).text());
@@ -34,7 +40,20 @@ $(document).ready(function () {
   const debounceSearch = debounce();
 
   $('.search-bar').on('input', function () {
-    debounceSearch();
+    if ($(this).val() == '') {
+      $('#results-container')
+        .html(`<img src="../assets/images/image.png" class="book-search-image" alt="" />
+        <p class="text-center text-muted">
+          <i class="bi bi-search"></i> Seek a Book, Find a Journey.
+        </p>`);
+      allSearchResults.length = 0;
+      updatePaginationUI();
+      sessionStorage.removeItem('savedSearchQuery');
+      sessionStorage.removeItem('savedSearchResults ');
+      sessionStorage.removeItem('savedSearchPage');
+    } else {
+      debounceSearch();
+    }
   });
 
   onAuthStateChanged(auth, async (user) => {
@@ -46,7 +65,7 @@ $(document).ready(function () {
       savedBooks.clear();
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log(data);
+
         savedBooks.add(data.bookId);
       });
     } else {

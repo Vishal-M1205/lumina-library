@@ -1,7 +1,7 @@
 import { savedBooks } from './discoverBooksPage.js';
 
 // Pagination State
-let allSearchResults = [];
+export let allSearchResults = [];
 let currentPage = 1;
 const resultsPerPage = 8; // 8 is perfect for a 4-column grid (2 rows per page)
 
@@ -22,7 +22,9 @@ export function search() {
       // Store all results and reset to page 1
       allSearchResults = data.results || [];
       currentPage = 1;
-
+      sessionStorage.setItem('savedSearchQuery', query);
+      sessionStorage.setItem('savedSearchResults', JSON.stringify(allSearchResults));
+      sessionStorage.setItem('savedSearchPage', currentPage);
       if (allSearchResults.length === 0) {
         $('#results-container').html('<p class="text-center">No books found.</p>');
         return;
@@ -86,7 +88,9 @@ function renderPage(pageNumber) {
       <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
           <div class="book-card h-100">
               <div class="book-cover">
-                  <img src="${coverUrl}" alt="${title}">
+                  <a href="./aboutBookPage.html?id=${bookId}">
+                    <img src="${coverUrl}" alt="${title}">
+                  </a>
               </div>
               <div class="book-content">
                   <h5 class="book-title">${title}</h5>
@@ -108,7 +112,7 @@ function renderPage(pageNumber) {
   updatePaginationUI();
 }
 
-function updatePaginationUI() {
+export function updatePaginationUI() {
   const totalPages = Math.ceil(allSearchResults.length / resultsPerPage);
 
   if (totalPages <= 1) {
@@ -129,6 +133,7 @@ $(document).ready(function () {
     if (currentPage > 1) {
       currentPage--;
       renderPage(currentPage);
+      sessionStorage.setItem('savedSearchPage', currentPage);
       // Smooth scroll back to the top of the results
       $('html, body').animate({ scrollTop: $('#results-container').offset().top - 30 }, 'fast');
     }
@@ -138,9 +143,27 @@ $(document).ready(function () {
     const totalPages = Math.ceil(allSearchResults.length / resultsPerPage);
     if (currentPage < totalPages) {
       currentPage++;
+      sessionStorage.setItem('savedSearchPage', currentPage);
       renderPage(currentPage);
       // Smooth scroll back to the top of the results
       $('html, body').animate({ scrollTop: $('#results-container').offset().top - 30 }, 'fast');
     }
   });
 });
+
+export function restoreSearchState() {
+  const savedQuery = sessionStorage.getItem('savedSearchQuery');
+  const savedResults = sessionStorage.getItem('savedSearchResults');
+  const savedPage = sessionStorage.getItem('savedSearchPage');
+
+  // If we have saved data, restore the UI instantly
+  if (savedQuery && savedResults) {
+    $('.search-bar').val(savedQuery); // Fill the search bar
+    allSearchResults = JSON.parse(savedResults); // Parse the string back to an array
+    currentPage = parseInt(savedPage) || 1;
+
+    if (allSearchResults.length > 0) {
+      renderPage(currentPage);
+    }
+  }
+}
