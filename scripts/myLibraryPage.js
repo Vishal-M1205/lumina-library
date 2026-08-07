@@ -225,7 +225,10 @@ function renderLibrary(filterType) {
           </button>
 
           <div class="reading-cover">
-            <img src="${book.cover}" alt="${book.title}" />
+            <a href="./aboutBookPage.html?id=${book.bookId}">
+             <img src="${book.cover}" alt="${book.title}" />
+            </a>
+            
           </div>
 
           <div class="reading-content">

@@ -20,7 +20,7 @@ let itunesBookData = null; // Store iTunes data in case they click "Save"
 $(document).ready(function () {
   // Back button - returns to discover page (sessionStorage will automatically restore the search!)
   $('#backBtn').on('click', () => {
-    window.location.href = './discoverBooksPage.html';
+    window.history.back();
   });
 
   $('#logoutBtn').on('click', async function (e) {
