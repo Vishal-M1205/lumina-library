@@ -163,7 +163,67 @@
       </button>
     </div>
 
+    <!-- Floating Add Button -->
+    <button class="floating-add-btn" data-bs-toggle="modal" data-bs-target="#manualAddModal" title="Add Book Manually">
+      <i class="bi bi-plus"></i>
+    </button>
+
+    <!-- Manual Add Book Modal -->
+    <div class="modal fade" id="manualAddModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+          <div class="modal-header border-0 pb-0">
+            <h4 class="modal-title fw-bold text-dark">
+              <i class="bi bi-journal-plus me-2"></i>
+              Add Book Manually
+            </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          
+          <div class="modal-body pt-3">
+            <form id="manualAddForm">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Book Title <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="manualTitle" required />
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Author <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="manualAuthor" required />
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Cover Image URL (Optional)</label>
+                <input type="url" class="form-control" id="manualCover" placeholder="https://..." />
+              </div>
+              
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label class="form-label fw-semibold">Total Pages</label>
+                  <input type="number" class="form-control" id="manualPages" min="1" />
+                </div>
+                <div class="col-6 mb-3">
+                  <label class="form-label fw-semibold">Publish Year</label>
+                  <input type="text" class="form-control" id="manualYear" placeholder="e.g. 2024" />
+                </div>
+              </div>
+              
+              <div class="mb-4">
+                <label class="form-label fw-semibold">Description</label>
+                <textarea class="form-control" id="manualDesc" rows="3"></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn-login w-100 py-2 rounded-pill">
+                <i class="bi bi-bookmark-plus me-2"></i>Add to Library
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="../scripts/discoverBooksPage.js" type="module"></script>
+    <script type="module" src="../scripts/manualAddBook.js"></script>
 
     <script></script>
   </body>

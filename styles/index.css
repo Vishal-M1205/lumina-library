@@ -127,3 +127,30 @@
   border-radius: 10px;
   background-color: var(--primary);
 }
+
+/* Floating Add Button */
+.floating-add-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--primary); /* Bootstrap primary color */
+  color: white;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: none;
+  cursor: pointer;
+  z-index: 1050;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.floating-add-btn:hover {
+  transform: scale(1.1);
+  background-color: #424c50;
+  color: white;
+}
