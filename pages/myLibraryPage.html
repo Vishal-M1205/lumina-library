@@ -115,31 +115,34 @@
     <section class="container-lg container-fluid mt-5">
       <h2 class="playfair-font fw-bold">My Reading Log</h2>
       <p class="text-muted">Track yout progress and capture your thoughts</p>
-      <div class="library-filters mb-4">
-        <button class="filter-btn active" data-filter="all">
-          <i class="bi bi-grid"></i>
-          All
-        </button>
+      <div class="library-utils">
+        <div class="library-filters mb-4">
+          <button class="filter-btn active" data-filter="all">
+            <i class="bi bi-grid"></i>
+            All
+          </button>
 
-        <button class="filter-btn" data-filter="want">
-          <i class="bi bi-bookmark"></i>
-          Want to Read
-        </button>
+          <button class="filter-btn" data-filter="want">
+            <i class="bi bi-bookmark"></i>
+            Want to Read
+          </button>
 
-        <button class="filter-btn" data-filter="reading">
-          <i class="bi bi-book-half"></i>
-          Reading
-        </button>
+          <button class="filter-btn" data-filter="reading">
+            <i class="bi bi-book-half"></i>
+            Reading
+          </button>
 
-        <button class="filter-btn" data-filter="completed">
-          <i class="bi bi-check-circle"></i>
-          Completed
-        </button>
+          <button class="filter-btn" data-filter="completed">
+            <i class="bi bi-check-circle"></i>
+            Completed
+          </button>
 
-        <button class="filter-btn" data-filter="dropped">
-          <i class="bi bi-x-circle"></i>
-          Dropped
-        </button>
+          <button class="filter-btn" data-filter="dropped">
+            <i class="bi bi-x-circle"></i>
+            Dropped
+          </button>
+        </div>
+        <input type="text" placeholder="Search..." id="searchMyLibrary" />
       </div>
 
       <div class="row" id="library-container">

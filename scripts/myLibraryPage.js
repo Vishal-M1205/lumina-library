@@ -191,12 +191,12 @@ async function fetchLibrary(userId) {
   }
 }
 
-function renderLibrary(filterType) {
+function renderLibrary(filterType, savedBooks = allSavedBooks) {
   const container = $('#library-container');
   container.empty();
 
   // 3. Filter the local array
-  const filteredBooks = allSavedBooks.filter((book) => {
+  const filteredBooks = savedBooks.filter((book) => {
     if (filterType === 'all') return true;
 
     return book.status.toLowerCase() === filterType;
@@ -328,6 +328,35 @@ function renderLibrary(filterType) {
     container.append(cardHtml);
   });
 }
+
+function searchMyLibraary() {
+  const searchBooks = allSavedBooks.filter((book) => {
+    const title = book.title.toLowerCase();
+    const author = book.author.toLowerCase();
+    const searchValue = $('#searchMyLibrary').val().toLowerCase();
+    return title.includes(searchValue) || author.includes(searchValue);
+  });
+
+  const currentFilter = $('.filter-btn.active').data('filter') || 'all';
+  renderLibrary(currentFilter);
+  renderLibrary(currentFilter, searchBooks);
+}
+
+function debounce() {
+  let timerId;
+  return function () {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      searchMyLibraary();
+    }, 1000);
+  };
+}
+
+const debounceSearch = debounce();
+
+$('#searchMyLibrary').on('input', function () {
+  debounceSearch();
+});
 
 $('#editBookForm').on('submit', async function (e) {
   e.preventDefault();
