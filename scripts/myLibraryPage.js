@@ -33,6 +33,8 @@ toastr.options = {
 // Store all fetched books here so filtering is instant (no extra database calls)
 let allSavedBooks = [];
 
+let searchBooks = [];
+
 $(document).ready(function () {
   // Navigation
   $('#discoverBooks').on('click', () => {
@@ -92,7 +94,7 @@ $(document).ready(function () {
     $(this).addClass('active');
 
     const selectedFilter = $(this).data('filter');
-    renderLibrary(selectedFilter);
+    renderLibrary(selectedFilter, searchBooks.length ? searchBooks : allSavedBooks);
   });
 
   function formatDateForInput(dateVal) {
@@ -330,7 +332,7 @@ function renderLibrary(filterType, savedBooks = allSavedBooks) {
 }
 
 function searchMyLibraary() {
-  const searchBooks = allSavedBooks.filter((book) => {
+  searchBooks = allSavedBooks.filter((book) => {
     const title = book.title.toLowerCase();
     const author = book.author.toLowerCase();
     const searchValue = $('#searchMyLibrary').val().toLowerCase();
