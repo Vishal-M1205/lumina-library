@@ -368,30 +368,26 @@ $('#editBookForm').on('submit', async function (e) {
   const docId = $('#bookDocId').val();
   const startedDateVal = $('#startedDate').val();
   const completedDateVal = $('#completedDate').val();
+  const status = $('#status').val();
+  const pagesRead = parseInt($('#pagesRead').val());
+  const totalPages = parseInt($('#totalPages').val());
 
-  if (
-    $('#status').val() == 'completed' &&
-    parseInt($('#pagesRead').val()) != parseInt($('#totalPages').val())
-  ) {
-    toastr.error("Looks like you didn't complete reading, the pages are not equal!");
+  if (status == 'completed' && pagesRead != totalPages && (!completedDateVal || !startedDateVal)) {
+    toastr.error(
+      "Looks like this book isn't quite finished yet. Please make sure the pages read match the total pages and add the started and completed dates."
+    );
     return;
   }
-  if (
-    $('#status').val() != 'completed' &&
-    parseInt($('#pagesRead').val()) == parseInt($('#totalPages').val())
-  ) {
+  if (status != 'completed' && pagesRead == totalPages) {
     toastr.error("Looks like you completed reading this book, change the status to 'Completed'");
     return;
   }
-  if (
-    $('#status').val() != 'reading' &&
-    parseInt($('#pagesRead').val()) < parseInt($('#totalPages').val())
-  ) {
+  if (status != 'reading' && pagesRead < totalPages && pagesRead != 0) {
     toastr.error("Looks like you started reading this book, change the status to 'Reading'");
     return;
   }
 
-  if (parseInt($('#pagesRead').val()) > parseInt($('#totalPages').val())) {
+  if (pagesRead > totalPages) {
     toastr.error('Invalid page number! Pages read is greater than Total pages');
     return;
   }
@@ -401,6 +397,12 @@ $('#editBookForm').on('submit', async function (e) {
     return;
   }
 
+  if (status == 'reading' && !startedDateVal && !pagesRead) {
+    toastr.error(
+      'Looks like this book is marked as "Reading”, but we’re missing the pages you’ve read and your started date. Add them to keep your reading progress on track!'
+    );
+    return;
+  }
   // Gather updated data
   let updatedData = {
     status: $('#status').val(),

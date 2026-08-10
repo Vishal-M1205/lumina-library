@@ -2,12 +2,11 @@
 import { auth, db, collection, addDoc } from './index.js';
 
 $(document).ready(function () {
-  
   $('#manualAddForm').on('submit', async function (e) {
     e.preventDefault();
 
     if (!auth.currentUser) {
-      alert("You must be logged in to add a book.");
+      alert('You must be logged in to add a book.');
       return;
     }
 
@@ -24,7 +23,7 @@ $(document).ready(function () {
 
     // 2. Set Fallback Cover if left empty
     if (!coverUrl) {
-      coverUrl = 'https://via.placeholder.com/150x200?text=No+Cover';
+      coverUrl = 'https://placehold.co/150x200?text=No+Cover';
     }
 
     // 3. Generate a fake ID for our cache and routing
@@ -45,11 +44,13 @@ $(document).ready(function () {
       savedAt: new Date(),
       startedAt: null,
       completedAt: null,
-      isManual: true // Helps you identify it in the database later!
+      isManual: true, // Helps you identify it in the database later!
     };
 
     try {
-      submitBtn.html('<span class="spinner-border spinner-border-sm me-2"></span>Adding...').prop('disabled', true);
+      submitBtn
+        .html('<span class="spinner-border spinner-border-sm me-2"></span>Adding...')
+        .prop('disabled', true);
 
       // Save to Firestore
       await addDoc(collection(db, 'library'), bookData);
@@ -61,7 +62,7 @@ $(document).ready(function () {
         icon: 'success',
         title: 'Book added manually!',
         showConfirmButton: false,
-        timer: 2000
+        timer: 2000,
       });
 
       // Reset form and close modal
@@ -73,7 +74,6 @@ $(document).ready(function () {
       if (window.location.pathname.includes('myLibraryPage')) {
         setTimeout(() => window.location.reload(), 1000);
       }
-
     } catch (error) {
       console.error('Error manually adding book:', error);
       Swal.fire('Error', 'Could not add the book. Please try again.', 'error');
@@ -81,5 +81,4 @@ $(document).ready(function () {
       submitBtn.html(originalText).prop('disabled', false);
     }
   });
-
 });
