@@ -205,13 +205,31 @@
               <div class="mb-3">
                 <label class="form-label fw-semibold"> Started Reading </label>
 
-                <input type="date" class="form-control" id="startedDate" />
+                <input
+                  type="date"
+                  class="form-control"
+                  id="startedDate"
+                  onkeydown="
+                    {
+                      return false;
+                    }
+                  "
+                />
               </div>
 
               <div class="mb-4">
                 <label class="form-label fw-semibold"> Completed Date </label>
 
-                <input type="date" class="form-control" id="completedDate" />
+                <input
+                  type="date"
+                  class="form-control"
+                  id="completedDate"
+                  onkeydown="
+                    {
+                      return false;
+                    }
+                  "
+                />
               </div>
 
               <!-- Buttons -->

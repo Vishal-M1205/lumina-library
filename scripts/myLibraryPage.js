@@ -36,6 +36,8 @@ let allSavedBooks = [];
 let searchBooks = [];
 
 $(document).ready(function () {
+  $('#completedDate').prop('max', new Date().toISOString().split('T')[0]);
+  $('#startedDate').prop('max', new Date().toISOString().split('T')[0]);
   // Navigation
   $('#discoverBooks').on('click', () => {
     window.location.replace('./discoverBooksPage.html');
@@ -372,7 +374,7 @@ $('#editBookForm').on('submit', async function (e) {
   const pagesRead = parseInt($('#pagesRead').val());
   const totalPages = parseInt($('#totalPages').val());
 
-  if (status == 'completed' && pagesRead != totalPages && (!completedDateVal || !startedDateVal)) {
+  if (status == 'completed' && (pagesRead != totalPages || !completedDateVal || !startedDateVal)) {
     toastr.error(
       "Looks like this book isn't quite finished yet. Please make sure the pages read match the total pages and add the started and completed dates."
     );
@@ -382,7 +384,7 @@ $('#editBookForm').on('submit', async function (e) {
     toastr.error("Looks like you completed reading this book, change the status to 'Completed'");
     return;
   }
-  if (status != 'reading' && pagesRead < totalPages && pagesRead != 0) {
+  if (status != 'reading' && pagesRead < totalPages && pagesRead != 0 && status != 'dropped') {
     toastr.error("Looks like you started reading this book, change the status to 'Reading'");
     return;
   }
