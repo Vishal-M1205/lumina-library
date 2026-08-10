@@ -1,0 +1,93 @@
+/* Apply your palette to the page background */
+body {
+  color: var(--neutral);
+}
+
+/* Book Header Banner */
+.book-header-banner {
+  background-color: var(--secondary);
+  border-left: 6px solid var(--primary);
+  transition: transform 0.2s ease;
+}
+
+.book-header-banner:hover {
+  transform: translateY(-2px);
+}
+
+.book-header-cover {
+  width: 80px;
+  height: 115px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Journal Input Area */
+.journal-input-card {
+  background-color: white;
+  border-top: 5px solid var(--tertiary);
+}
+
+.journal-textarea {
+  background-color: var(--section-bg);
+  border: 1px solid #ddd;
+  resize: none;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.journal-textarea:focus {
+  background-color: white;
+  border-color: var(--tertiary);
+  box-shadow: 0 0 0 0.25rem rgba(212, 163, 115, 0.25); /* Glow using tertiary color */
+}
+
+/* Primary Button Styling overrides */
+.btn-primary-custom {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary-custom:hover {
+  background-color: #4a5c65; /* Slightly darker primary */
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Journal Entries Timeline Feed */
+.entry-card {
+  background-color: white;
+  border-left: 2px solid var(--tertiary);
+  position: relative;
+  transition: box-shadow 0.2s ease;
+}
+
+.entry-card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+}
+
+.entry-date {
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.entry-text {
+  white-space: pre-wrap; /* Crucial: preserves the user's paragraphs/line breaks! */
+  line-height: 1.7;
+  color: var(--neutral);
+}
+
+.delete-entry-btn {
+  background: transparent;
+  border: none;
+  color: #adb5bd;
+  transition: color 0.2s ease;
+}
+
+.delete-entry-btn:hover {
+  color: #dc3545; /* Bootstrap red */
+}

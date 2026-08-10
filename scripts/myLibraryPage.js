@@ -324,6 +324,9 @@ function renderLibrary(filterType, savedBooks = allSavedBooks) {
                 <span>${dateCompleted}</span>
               </div>
             </div>
+            <a href="./journalPage.html?id=${book.bookId}" class="btn btn-save btn-sm w-100 mt-3 rounded-pill fw-bold">
+              <i class="bi bi-journal-richtext me-2"></i>Open Journal
+            </a>
           </div>
         </div>
       </div>

@@ -26,6 +26,7 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  orderBy,
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -65,4 +66,5 @@ export {
   doc,
   updateDoc,
   deleteDoc,
+  orderBy,
 };

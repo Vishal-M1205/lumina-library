@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta
+        name="description"
+        content="Discover books, organize your personal library, track your reading progress, and turn every page into a new adventure with Lumina Library."
+      />
+
+      <meta
+        name="keywords"
+        content="books, book tracker, reading tracker, online library, book collection, Google Books API, reading progress"
+      />
+
+      <meta name="author" content="Lumina Library" />
+      <meta name="theme-color" content="#5d737e" />
+
+      <!-- Favicon -->
+      <link rel="icon" href="/assets/images/favicon.png" type="image/png" />
+      <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png" />
+
+      <!-- Open Graph -->
+      <meta property="og:type" content="website" />
+
+      <meta property="og:title" content="Lumina Library" />
+
+      <meta
+        property="og:description"
+        content="Discover books, build your personal library, and track every chapter of your reading journey."
+      />
+
+      <meta property="og:url" content="https://luminalibrary2026.netlify.app/" />
+
+      <meta property="og:site_name" content="Lumina Library" />
+
+      <meta
+        property="og:image"
+        content="https://luminalibrary2026.netlify.app/assets/images/favicon.png"
+      />
+
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+
+      <!-- Twitter/X -->
+      <meta name="twitter:card" content="summary_large_image" />
+
+      <meta name="twitter:title" content="Lumina Library" />
+
+      <meta
+        name="twitter:description"
+        content="Discover books, build your personal library, and track every chapter of your reading journey."
+      />
+
+      <meta
+        name="twitter:image"
+        content="https://luminalibrary2026.netlify.app/assets/images/favicon.png"
+      />
+      <title>Lumina Library</title>
+      <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous"
+      />
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"
+      ></script>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      />
+      <script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"
+      ></script>
+      <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js"></script>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+      />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+      />
+      <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon" />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <link rel="stylesheet" href="../styles/index.css" />
+      <link rel="stylesheet" href="../styles/journalPage.css" />
+    </head>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg px-lg-5">
+      <a href="#" class="navbar-brand ms-3 playfair-font fw-bold"> Lumina Library </a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav gap-3 ms-3 me-3 mb-3 mb-lg-0 align-items-lg-center align-items-start">
+          <li class="nav-item current-page">
+            <a href="#">My Library</a>
+          </li>
+          <li class="nav-item" id="discoverBooks">
+            <a href="#">Dicover Books</a>
+          </li>
+        </ul>
+        <a href="#" id="logoutBtn" class="ms-lg-auto ms-3 me-3">Logout</a>
+      </div>
+    </nav>
+
+    <section class="container py-5 max-w-800" style="max-width: 800px; margin: 0 auto">
+      <!-- Back Button -->
+      <button id="backBtn" class="btn btn-outline-secondary rounded-pill px-4 mb-4">
+        <i class="bi bi-arrow-left me-2"></i>Back to Library
+      </button>
+
+      <!-- Book Context Header -->
+      <div
+        class="book-header-banner d-flex align-items-center p-3 rounded-4 shadow-sm mb-4"
+        id="journalBookHeader"
+      >
+        <img
+          id="headerCover"
+          src="https://placehold.co/150x200?text=Loading"
+          alt="Book Cover"
+          class="book-header-cover me-4"
+        />
+        <div>
+          <h3 id="headerTitle" class="playfair-font fw-bold mb-1">Loading...</h3>
+          <p id="headerAuthor" class="mb-0 text-muted">
+            <i class="bi bi-person-fill me-2"></i>Loading author...
+          </p>
+        </div>
+      </div>
+
+      <!-- Write New Entry -->
+      <div class="journal-input-card p-4 rounded-4 shadow-sm mb-5">
+        <h5 class="fw-bold mb-3" style="color: var(--primary)">
+          <i class="bi bi-pen me-2"></i>Add a New Entry
+        </h5>
+        <form id="addEntryForm">
+          <textarea
+            class="form-control journal-textarea mb-3 rounded-3 p-3"
+            id="entryText"
+            rows="4"
+            placeholder="What did you think of this chapter? Any favorite quotes or thoughts?"
+            required
+          ></textarea>
+          <div class="text-end">
+            <button type="submit" class="btn btn-primary-custom rounded-pill px-4 fw-bold">
+              Save Entry
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Past Entries Feed -->
+      <div>
+        <h4 class="playfair-font fw-bold mb-4" style="color: var(--neutral)">
+          Your Reading Journey
+        </h4>
+
+        <div id="entriesContainer">
+          <!-- Loading Spinner -->
+          <div class="text-center text-muted py-5" id="entriesLoading">
+            <div class="spinner-border" style="color: var(--tertiary)" role="status"></div>
+            <p class="mt-2">Loading your thoughts...</p>
+          </div>
+
+          <!-- Entries will be dynamically injected here by JS -->
+        </div>
+      </div>
+    </section>
+
+    <script src="../scripts/journalPage.js" type="module"></script>
+  </body>
+</html>

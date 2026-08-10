@@ -82,7 +82,7 @@
 }
 
 .reading-cover {
-  width: 145px;
+  width: 200px;
   flex-shrink: 0;
 
   background: var(--section-bg);
