@@ -342,7 +342,6 @@ function searchMyLibraary() {
   });
 
   const currentFilter = $('.filter-btn.active').data('filter') || 'all';
-  renderLibrary(currentFilter);
   renderLibrary(currentFilter, searchBooks);
 }
 
