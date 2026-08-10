@@ -1,12 +1,41 @@
 // scripts/manualAddBook.js
 import { auth, db, collection, addDoc } from './index.js';
 
+function isValidYear(year) {
+  const num = Number(year);
+
+  return Number.isInteger(num) && num >= 1 && num <= 9999;
+}
+
+toastr.options = {
+  closeButton: false,
+  debug: false,
+  newestOnTop: false,
+  progressBar: false,
+  positionClass: 'toast-top-right',
+  preventDuplicates: false,
+  onclick: null,
+  showDuration: '300',
+  hideDuration: '1000',
+  timeOut: '5000',
+  extendedTimeOut: '1000',
+  showEasing: 'swing',
+  hideEasing: 'linear',
+  showMethod: 'fadeIn',
+  hideMethod: 'fadeOut',
+};
+
 $(document).ready(function () {
   $('#manualAddForm').on('submit', async function (e) {
     e.preventDefault();
 
     if (!auth.currentUser) {
       alert('You must be logged in to add a book.');
+      return;
+    }
+
+    if (!isValidYear($('#manualYear').val().trim())) {
+      toastr.error('Invalid Year!');
       return;
     }
 

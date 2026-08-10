@@ -397,7 +397,7 @@ $('#editBookForm').on('submit', async function (e) {
     return;
   }
 
-  if (status == 'reading' && !startedDateVal && !pagesRead) {
+  if (status == 'reading' && (!startedDateVal || !pagesRead)) {
     toastr.error(
       'Looks like this book is marked as "Reading”, but we’re missing the pages you’ve read and your started date. Add them to keep your reading progress on track!'
     );
