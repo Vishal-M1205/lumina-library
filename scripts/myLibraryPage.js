@@ -12,6 +12,24 @@ import {
   deleteDoc,
 } from './index.js';
 
+toastr.options = {
+  closeButton: false,
+  debug: false,
+  newestOnTop: false,
+  progressBar: false,
+  positionClass: 'toast-top-right',
+  preventDuplicates: false,
+  onclick: null,
+  showDuration: '300',
+  hideDuration: '1000',
+  timeOut: '5000',
+  extendedTimeOut: '1000',
+  showEasing: 'swing',
+  hideEasing: 'linear',
+  showMethod: 'fadeIn',
+  hideMethod: 'fadeOut',
+};
+
 // Store all fetched books here so filtering is instant (no extra database calls)
 let allSavedBooks = [];
 
@@ -96,8 +114,48 @@ $(document).ready(function () {
     const book = allSavedBooks.find((b) => b.id === id);
     if (!book) return;
 
+    console.log(book);
+
     // Fill in the hidden ID field so the submit form knows which book to update
+    const bookId = book.bookId;
+
+    if (bookId.startsWith('manual')) {
+      $('#editBookForm').prepend(
+        `<div id="manual-div">
+              <div class="mb-3">
+                <label class="form-label fw-semibold"> Author Name <span class="text-danger">*</span> </label>
+
+                <input type="text" class="form-control" id="authorName" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold"> Book Name <span class="text-danger">*</span></label>
+
+                <input type="text" class="form-control" id="bookName"  required/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold"> Book Description <span class="text-danger">*</span> </label>
+
+                <textarea class="form-control" id="bookDesc" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold"> Cover Image (URL) </label>
+
+                <input type="text" class="form-control" id="cover" >
+              </div>
+        </div>`
+      );
+      $('#editBookModal-close').on('click', () => {
+        $('#manual-div').remove();
+      });
+
+      $('#authorName').val(book.author);
+      $('#bookName').val(book.title);
+      $('#bookDesc').val(decodeURIComponent(book.description));
+      $('#cover').val(book.cover);
+    }
+
     $('#bookDocId').val(book.id);
+    $('#bookId').val(bookId);
 
     // Populate Status & Pages
     $('#status').val(book.status);
@@ -280,14 +338,49 @@ $('#editBookForm').on('submit', async function (e) {
   const startedDateVal = $('#startedDate').val();
   const completedDateVal = $('#completedDate').val();
 
+  if (
+    $('#status').val() == 'completed' &&
+    parseInt($('#pagesRead').val()) != parseInt($('#totalPages').val())
+  ) {
+    toastr.error("Looks like you didn't complete reading, the pages are not equal!");
+    return;
+  }
+  if (
+    $('#status').val() != 'completed' &&
+    parseInt($('#pagesRead').val()) == parseInt($('#totalPages').val())
+  ) {
+    toastr.error("Looks like completed reading, change the status to 'Completed'");
+    return;
+  }
+
+  if (parseInt($('#pagesRead').val()) > parseInt($('#totalPages').val())) {
+    toastr.error('Invalid page number! Pages read is greater than Total pages');
+    return;
+  }
+
+  if (startedDateVal > completedDateVal) {
+    toastr.error('Invalid date! Started date is greater than Completed date');
+    return;
+  }
+
   // Gather updated data
-  const updatedData = {
+  let updatedData = {
     status: $('#status').val(),
     pagesRead: parseInt($('#pagesRead').val()) || 0,
     totalPages: parseInt($('#totalPages').val()) || 0,
     startedAt: startedDateVal ? new Date(startedDateVal) : null,
     completedAt: completedDateVal ? new Date(completedDateVal) : null,
   };
+
+  if ($('#bookId').val().startsWith('manual')) {
+    updatedData = {
+      ...updatedData,
+      author: $('#authorName').val(),
+      title: $('#bookName').val(),
+      description: encodeURIComponent($('#bookDesc').val()),
+      cover: $('#cover').val() ? $('#cover').val() : 'https://placehold.co/150x200?text=No+Cover',
+    };
+  }
 
   try {
     // Visual loading state
@@ -298,6 +391,9 @@ $('#editBookForm').on('submit', async function (e) {
     // Update Firestore
     await updateDoc(doc(db, 'library', docId), updatedData);
 
+    if ($('#bookId').val().startsWith('manual')) {
+      $('#manual-div').remove();
+    }
     // Update our local array so we don't have to fetch from the DB again!
     const bookIndex = allSavedBooks.findIndex((b) => b.id === docId);
     if (bookIndex > -1) {
@@ -344,7 +440,6 @@ $('#deleteBookBtn').on('click', async function () {
 
   if (result.isConfirmed) {
     try {
-      console.log('hiii');
       await deleteDoc(doc(db, 'library', docId));
 
       allSavedBooks = allSavedBooks.filter((b) => b.id !== docId);

@@ -68,36 +68,65 @@ $(document).ready(function () {
 
 async function loadBookData() {
   try {
-    // 1. Fetch book details directly from iTunes using the ID
-    const response = await fetch(`https://itunes.apple.com/lookup?id=${currentBookId}`);
-    const data = await response.json();
-
-    if (!data.results || data.results.length === 0) {
-      $('#dynamic-book-content').html(
-        '<p class="text-center text-danger mt-5">Book not found.</p>'
+    if (currentBookId.startsWith('manual_')) {
+      const q = query(
+        collection(db, 'library'),
+        where('userId', '==', currentUser.uid),
+        where('bookId', '==', currentBookId)
       );
-      return;
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        $('#dynamic-book-content').html(
+          '<p class="text-center text-danger mt-5">Manual book not found in your library.</p>'
+        );
+        return;
+      }
+
+      const savedData = snapshot.docs[0].data();
+
+      itunesBookData = {
+        trackName: savedData.title,
+        artistName: savedData.author,
+        artworkUrl100: savedData.cover, // We already set the cover URL
+        releaseDate: savedData.publishYear ? String(savedData.publishYear) : 'Unknown',
+        description: decodeURIComponent(savedData.description), // Decode it for display!
+      };
+
+      // Always pass true for isSaved, because manual books are ALWAYS saved
+      renderBookDetails(true, savedData);
+    } else {
+      // 1. Fetch book details directly from iTunes
+      const response = await fetch(`https://itunes.apple.com/lookup?id=${currentBookId}`);
+      const data = await response.json();
+
+      if (!data.results || data.results.length === 0) {
+        $('#dynamic-book-content').html(
+          '<p class="text-center text-danger mt-5">Book not found.</p>'
+        );
+        return;
+      }
+
+      itunesBookData = data.results[0];
+
+      // 2. Check if this book is already saved in Firestore
+      const q = query(
+        collection(db, 'library'),
+        where('userId', '==', currentUser.uid),
+        where('bookId', '==', currentBookId)
+      );
+      const snapshot = await getDocs(q);
+
+      const isSaved = !snapshot.empty;
+      let savedData = null;
+
+      if (isSaved) {
+        savedData = snapshot.docs[0].data();
+      }
+
+      // 3. Render the UI
+      renderBookDetails(isSaved, savedData);
     }
-
-    itunesBookData = data.results[0];
-
-    // 2. Check if this book is already saved in the user's Firestore library
-    const q = query(
-      collection(db, 'library'),
-      where('userId', '==', currentUser.uid),
-      where('bookId', '==', currentBookId)
-    );
-    const snapshot = await getDocs(q);
-
-    const isSaved = !snapshot.empty;
-    let savedData = null;
-
-    if (isSaved) {
-      savedData = snapshot.docs[0].data();
-    }
-
-    // 3. Render the UI
-    renderBookDetails(isSaved, savedData);
   } catch (error) {
     console.error('Error loading book data:', error);
     $('#dynamic-book-content').html(
@@ -110,9 +139,14 @@ function renderBookDetails(isSaved, savedData) {
   // Extract standard iTunes data
   const title = itunesBookData.trackName || 'Unknown Title';
   const author = itunesBookData.artistName || 'Unknown Author';
-  const coverUrl = itunesBookData.artworkUrl100
-    ? itunesBookData.artworkUrl100.replace('100x100', '300x300')
-    : 'https://via.placeholder.com/150x200?text=No+Cover';
+  let coverUrl = 'https://via.placeholder.com/150x200?text=No+Cover';
+  if (itunesBookData.artworkUrl100) {
+    if (itunesBookData.artworkUrl100.includes('100x100')) {
+      coverUrl = itunesBookData.artworkUrl100.replace('100x100', '300x300');
+    } else {
+      coverUrl = itunesBookData.artworkUrl100; // Manual cover URL
+    }
+  }
   const publishYear = itunesBookData.releaseDate
     ? itunesBookData.releaseDate.substring(0, 4)
     : 'Unknown';
