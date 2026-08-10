@@ -349,7 +349,14 @@ $('#editBookForm').on('submit', async function (e) {
     $('#status').val() != 'completed' &&
     parseInt($('#pagesRead').val()) == parseInt($('#totalPages').val())
   ) {
-    toastr.error("Looks like completed reading, change the status to 'Completed'");
+    toastr.error("Looks like you completed reading this book, change the status to 'Completed'");
+    return;
+  }
+  if (
+    $('#status').val() != 'reading' &&
+    parseInt($('#pagesRead').val()) < parseInt($('#totalPages').val())
+  ) {
+    toastr.error("Looks like you started reading this book, change the status to 'Reading'");
     return;
   }
 
@@ -358,7 +365,7 @@ $('#editBookForm').on('submit', async function (e) {
     return;
   }
 
-  if (startedDateVal > completedDateVal) {
+  if (startedDateVal > completedDateVal && startedDateVal != '' && completedDateVal != '') {
     toastr.error('Invalid date! Started date is greater than Completed date');
     return;
   }
