@@ -13,7 +13,9 @@ export function search() {
   $('#pagination-controls').addClass('d-none'); // Hide pagination while loading
 
   // Fetch 40 books at once for instant client-side pagination
-  fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=ebook&limit=40`)
+  fetch(
+    `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=ebook&limit=40&timestamp=${Date.now()}`
+  )
     .then((response) => {
       if (!response.ok) throw new Error('Network response was not ok');
       return response.json();

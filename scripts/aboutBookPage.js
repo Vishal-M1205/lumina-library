@@ -97,7 +97,9 @@ async function loadBookData() {
       renderBookDetails(true, savedData);
     } else {
       // 1. Fetch book details directly from iTunes
-      const response = await fetch(`https://itunes.apple.com/lookup?id=${currentBookId}`);
+      const response = await fetch(
+        `https://itunes.apple.com/lookup?id=${currentBookId}&timestamp=${Date.now()}`
+      );
       const data = await response.json();
 
       if (!data.results || data.results.length === 0) {
