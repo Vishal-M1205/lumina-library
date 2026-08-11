@@ -2,6 +2,11 @@
 
 > A responsive personal book-tracking web application for discovering books, building a private reading library, tracking reading progress, and maintaining a journal for individual books.
 
+## Live Demo
+
+[Visit Lumina Library](https://luminalibrary2026.netlify.app/)
+
+
 ## Overview
 
 **Lumina Library** is a client-side web application built with HTML, CSS, JavaScript, jQuery, Bootstrap, Firebase Authentication, and Cloud Firestore.
@@ -2582,20 +2587,6 @@ Page styling         → individual CSS files
 ```
 
 This separation makes the project suitable as a portfolio project and provides a clear foundation for later migration to a more structured frontend architecture or a full-stack application.
-
----
-
-## License
-
-Add the license appropriate for your project before publishing the repository publicly.
-
-Example:
-
-```text
-MIT License
-```
-
-if you intend to allow broad reuse.
 
 ---
 
