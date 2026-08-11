@@ -11,6 +11,7 @@ import {
   deleteDoc,
   doc,
   orderBy,
+  updateDoc,
 } from './index.js';
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -142,7 +143,7 @@ $('#addEntryForm').on('submit', async function (e) {
   const originalText = submitBtn.text();
 
   try {
-    submitBtn.html('<span class="spinner-border spinner-border-sm"></span>').prop('disabled', true);
+    submitBtn.html('<span class="spinner-grow spinner-grow-sm"></span>').prop('disabled', true);
 
     // Create reference to the SUBCOLLECTION: library -> [docId] -> journal
     const journalRef = collection(db, 'library', firestoreBookDocId, 'journal');
@@ -210,10 +211,17 @@ async function loadJournalEntries() {
       const entryHtml = `
         <div class="entry-card p-4 rounded-4 shadow-sm mb-4">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="entry-date"><i class="bi bi-calendar2-heart me-2"></i>${dateString}</span>
+            <span class="entry-date"><i class="bi bi-calendar2-heart me-2"></i>${dateString}${entry.isEdited ? '<small class="text-muted ms-2">(edited)</small>' : ''}</span>
+            <div>
+             <button class="action-btn edit-entry-btn me-2" data-id="${entryId}" title="Edit Entry">
+                <i class="bi bi-pencil"></i>
+              </button>
+
             <button class="delete-entry-btn" data-id="${entryId}" title="Delete Entry">
               <i class="bi bi-trash3"></i>
             </button>
+            </div>
+           
           </div>
           <div class="entry-text">${entry.text}</div>
         </div>
@@ -252,5 +260,61 @@ $(document).on('click', '.delete-entry-btn', async function () {
       console.error('Error deleting entry:', error);
       toastr.error('Failed to delete entry');
     }
+  }
+});
+
+// --- OPEN EDIT MODAL ---
+$(document).on('click', '.edit-entry-btn', function () {
+  const entryId = $(this).data('id');
+
+  // Grab the exact text from the card (using .text() preserves the line breaks!)
+  const currentText = $(this).closest('.entry-card').find('.entry-text').text();
+
+  // Fill the modal inputs
+  $('#editEntryId').val(entryId);
+  $('#editEntryText').val(currentText);
+
+  // Show the modal
+  const editModal = new bootstrap.Modal(document.getElementById('editEntryModal'));
+  editModal.show();
+});
+
+// --- SUBMIT EDITED ENTRY ---
+$('#editEntryForm').on('submit', async function (e) {
+  e.preventDefault();
+
+  const entryId = $('#editEntryId').val();
+  const newText = $('#editEntryText').val().trim();
+  if (!newText) return;
+
+  const submitBtn = $(this).find('button[type="submit"]');
+  const originalText = submitBtn.html();
+
+  try {
+    submitBtn
+      .html('<span class="spinner-border spinner-border-sm"></span> Updating...')
+      .prop('disabled', true);
+
+    // Update the specific document in the subcollection
+    const entryRef = doc(db, 'library', firestoreBookDocId, 'journal', entryId);
+    await updateDoc(entryRef, {
+      text: newText,
+      isEdited: true, // We flag it so we can show the "(edited)" badge
+    });
+
+    // Close Modal and Reset
+    const modal = bootstrap.Modal.getInstance(document.getElementById('editEntryModal'));
+    modal.hide();
+    $('#editEntryForm')[0].reset();
+
+    toastr.success('Journal entry updated!');
+
+    // Reload the feed to show changes
+    await loadJournalEntries();
+  } catch (error) {
+    console.error('Error updating entry:', error);
+    toastr.error('Failed to update entry.');
+  } finally {
+    submitBtn.html(originalText).prop('disabled', false);
   }
 });

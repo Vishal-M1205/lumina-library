@@ -91,3 +91,22 @@ body {
 .delete-entry-btn:hover {
   color: #dc3545; /* Bootstrap red */
 }
+
+/* Journal Entry Action Buttons */
+.action-btn {
+  background: transparent;
+  border: none;
+  color: #adb5bd;
+  transition:
+    color 0.2s ease,
+    transform 0.1s ease;
+  padding: 0 5px;
+}
+
+.action-btn:hover {
+  transform: scale(1.1);
+}
+
+.edit-entry-btn:hover {
+  color: var(--primary);
+}

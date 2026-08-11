@@ -178,6 +178,43 @@
       </div>
     </section>
 
+    <!-- Edit Entry Modal -->
+    <div
+      class="modal fade"
+      id="editEntryModal"
+      tabindex="-1"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title fw-bold text-dark">
+              <i class="bi bi-pencil-square me-2"></i>Edit Journal Entry
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body pt-3">
+            <form id="editEntryForm">
+              <!-- Hidden input to store the ID of the entry we are editing -->
+              <input type="hidden" id="editEntryId" />
+
+              <textarea
+                class="form-control journal-textarea mb-4 rounded-3 p-3"
+                id="editEntryText"
+                rows="5"
+                required
+              ></textarea>
+
+              <button type="submit" class="btn btn-primary-custom w-100 rounded-pill py-2 fw-bold">
+                Save Changes
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="../scripts/journalPage.js" type="module"></script>
   </body>
 </html>
